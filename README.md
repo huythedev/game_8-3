@@ -84,7 +84,7 @@ chmod +x setup.sh run.sh
 ## Project Structure
 
 ```
-/e:/code/Game_8-3/
+Game_8-3/
 ├── app.py                 # Application entry point
 ├── config.py              # Configuration settings
 ├── middleware.py          # Proxy handling middleware
