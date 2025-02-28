@@ -51,35 +51,8 @@ The String Transformer application allows users to submit strings and receive tr
 
 7. Run the application:
    ```bash
-   python app.py
+   python -m waitress --host=0.0.0.0 --port=8000 wsgi:application
    ```
-
-## Platform-Specific Quick Deploy
-
-For easy deployment, use the scripts in the `quick_deploy` directory:
-
-### Windows
-```
-cd quick_deploy\windows
-setup.bat
-run.bat
-```
-
-### Linux
-```
-cd quick_deploy/linux
-chmod +x setup.sh run.sh
-./setup.sh
-./run.sh
-```
-
-### macOS
-```
-cd quick_deploy/macos
-chmod +x setup.sh run.sh
-./setup.sh
-./run.sh
-```
 
 ## Project Structure
 
@@ -106,22 +79,6 @@ game_8-3/
 ├── instance/              # Instance folder for SQLite database
 │
 ├── logs/                  # Application logs directory
-│
-├── quick_deploy/          # Deployment scripts
-│   ├── linux/
-│   │   ├── run.sh
-│   │   ├── run_production.sh
-│   │   ├── run_systemd.sh
-│   │   └── setup.sh
-│   │
-│   ├── macos/
-│   │   ├── run.sh
-│   │   └── setup.sh
-│   │
-│   └── windows/
-│       ├── run.bat
-│       ├── run_production.bat
-│       └── setup.bat
 │
 ├── routes/                # Route blueprints
 │   ├── admin.py           # Admin routes
