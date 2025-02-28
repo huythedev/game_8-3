@@ -141,16 +141,10 @@ After installation, you can access the admin interface at `/admin/login` with th
 
 ## Production Deployment
 
-### Using Gunicorn (Linux/macOS)
-
-```bash
-gunicorn --workers=3 --bind=0.0.0.0:8000 wsgi:application
-```
-
 ### Using Waitress (Windows)
 
 ```bash
-waitress-serve --host=0.0.0.0 --port=8000 wsgi:application
+python -m waitress --host=0.0.0.0 --port=8000 wsgi:application
 ```
 
 ### Nginx Configuration
