@@ -84,35 +84,62 @@ chmod +x setup.sh run.sh
 ## Project Structure
 
 ```
-Game_8-3/
+game_8-3/
+├── .env
+├── .env.example
+├── .gitattributes
 ├── app.py                 # Application entry point
 ├── config.py              # Configuration settings
+├── fix_critical_templates.py # Script to fix critical templates
+├── fix_database.py        # Script to fix database issues
+├── fix_routes.py          # Script to fix route issues
+├── generate_key.py        # Script to generate secret keys
 ├── middleware.py          # Proxy handling middleware
 ├── models.py              # Database models
+├── quick_fix.py           # Script for quick fixes
+├── README.md
+├── requirements.txt       # Python dependencies
+├── reset_database.py      # Script to reset the database
 ├── utils.py               # Utility functions
 ├── wsgi.py                # WSGI entry point for production
-├── requirements.txt       # Python dependencies
-├── .env.example           # Environment variables template
+│
+├── instance/              # Instance folder for SQLite database
+│
+├── logs/                  # Application logs directory
+│
+├── quick_deploy/          # Deployment scripts
+│   ├── linux/
+│   │   ├── run.sh
+│   │   ├── run_production.sh
+│   │   ├── run_systemd.sh
+│   │   └── setup.sh
+│   │
+│   ├── macos/
+│   │   ├── run.sh
+│   │   └── setup.sh
+│   │
+│   └── windows/
+│       ├── run.bat
+│       ├── run_production.bat
+│       └── setup.bat
 │
 ├── routes/                # Route blueprints
 │   ├── admin.py           # Admin routes
 │   ├── errors.py          # Error handlers
 │   └── main.py            # Main application routes
 │
-├── templates/             # Jinja2 HTML templates
-│   ├── admin_dashboard.html
-│   ├── admin_login.html
-│   ├── error.html
-│   ├── index.html
-│   ├── no_match.html
-│   └── result.html
+├── static/                # Static files (CSS, JS, images)
+│   └── css/
+│       ├── admin.css
+│       └── style.css
 │
-├── logs/                  # Application logs directory
-│
-└── quick_deploy/          # Deployment scripts
-    ├── windows/
-    ├── linux/
-    └── macos/
+└── templates/             # Jinja2 HTML templates
+    ├── admin_dashboard.html
+    ├── admin_login.html
+    ├── error.html
+    ├── index.html
+    ├── no_match.html
+    └── result.html
 ```
 
 ## Configuration
