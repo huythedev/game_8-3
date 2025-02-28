@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>manage dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="#change-password">Change Password</a></li>
+                    <li><a href="#string-pairs">String Pairs</a></li>
+                    <li><a href="#string-entries">String Entries</a></li>
+                    {% if session.is_admin %}
+                    <li><a href="#user-management">User Management</a></li>
+                    {% endif %}
+                    <li><a href="#admin-logs">Admin Logs</a></li>
+                </ul>
+            </nav>
+            <div class="admin-actions">
+                <a href="{{ url_for('admin.logout') }}" class="logout-btn">Logout</a>
+            </div>
+        </div>
+        
+        <div class="admin-content">
+            <header class="admin-header">
+                <h1>Dashboard</h1>
+                <div class="admin-user">
+                    <span>Logged in as {{ session.username }}</span>
+                    {% if session.is_admin %}
+                    <span class="admin-badge">Admin</span>
+                    {% endif %}
+                </div>
+            </header>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Password Change Section -->
+            <section id="change-password" class="dashboard-section">
+                <h2>Change Password</h2>
+                <div class="action-box">
+                    <h3>Update Your Password</h3>
+                    <form method="POST" action="{{ url_for('admin.change_password') }}" class="inline-form">
+                        <div class="form-group">
+                            <label for="current_password">Current Password:</label>
+                            <input type="password" id="current_password" name="current_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">New Password:</label>
+                            <input type="password" id="new_password" name="new_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm New Password:</label>
+                            <input type="password" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        <button type="submit" class="btn admin-btn">Change Password</button>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- String Pairs Section -->
+            <section id="string-pairs" class="dashboard-section">
+                <h2>String Transformation Pairs</h2>
+                <div class="action-box">
+                    <h3>Add New String Pair</h3>
+                    <form method="POST" action="{{ url_for('admin.add_string_pair') }}" class="inline-form">
+                        <div class="form-group">
+                            <label for="input_pattern">Input Pattern:</label>
+                            <input type="text" id="input_pattern" name="input_pattern" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="output_pattern">Output Pattern:</label>
+                            <input type="text" id="output_pattern" name="output_pattern" required>
+                        </div>
+                        <button type="submit" class="btn admin-btn">Add Pair</button>
+                    </form>
+                </div>
+                
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Input Pattern</th>
+                                <th>Output Pattern</th>
+                                <th>Created By</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pair in string_pairs %}
+                            <tr>
+                                <td>{{ pair.id }}</td>
+                                <td>{{ pair.input_pattern }}</td>
+                                <td>{{ pair.output_pattern }}</td>
+                                <td>{{ pair.created_by }}</td>
+                                <td>{{ pair.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>
+                                    <form method="POST" action="{{ url_for('admin.delete_string_pair', pair_id=pair.id) }}" onsubmit="return confirm('Are you sure you want to delete this pair?')">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- String Entries Section -->
+            <section id="string-entries" class="dashboard-section">
+                <h2>String Transformations History</h2>
+                <p class="dashboard-info">
+                    Each string can only be viewed once by default. To allow a string to be viewed again, 
+                    enable reaccess using the button below. Once enabled, the next view will mark it as used again.
+                </p>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Input String</th>
+                                <th>Transformed String</th>
+                                <th>IP Address</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in string_entries %}
+                            <tr class="{% if entry.accessed and not entry.reaccesible %}entry-used{% endif %}">
+                                <td>{{ entry.id }}</td>
+                                <td>{{ entry.input_string }}</td>
+                                <td>{{ entry.transformed_string }}</td>
+                                <td>{{ entry.ip_address }}</td>
+                                <td>
+                                    {% if entry.accessed and not entry.reaccesible %}
+                                    <span class="status-badge viewed">Used - Cannot Access</span>
+                                    {% elif entry.accessed and entry.reaccesible %}
+                                    <span class="status-badge enabled">Used - Reaccess Enabled</span>
+                                    {% elif not entry.accessed %}
+                                    <span class="status-badge not-viewed">Not Viewed Yet</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ entry.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td class="actions-cell">
+                                    <form method="POST" action="{{ url_for('admin.toggle_reaccess', entry_id=entry.id) }}" class="inline-form-action">
+                                        {% if entry.accessed and not entry.reaccesible %}
+                                            <button type="submit" class="btn btn-sm btn-success">Enable Viewing</button>
+                                        {% elif entry.reaccesible %}
+                                            <button type="submit" class="btn btn-sm btn-warning">Disable Reaccess</button>
+                                        {% else %}
+                                            <span class="status-text">No action needed</span>
+                                        {% endif %}
+                                    </form>
+                                    
+                                    <!-- Delete button -->
+                                    <form method="POST" action="{{ url_for('admin.delete_entry', entry_id=entry.id) }}" onsubmit="return confirm('Are you sure you want to delete this entry?')" class="inline-form-action">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- User Management Section - Only for Admins -->
+            {% if session.is_admin %}
+            <section id="user-management" class="dashboard-section">
+                <h2>User Management</h2>
+                <div class="action-box">
+                    <h3>Add New User</h3>
+                    <form method="POST" action="{{ url_for('admin.add_user') }}" class="inline-form">
+                        <div class="form-group">
+                            <label for="new_username">Username:</label>
+                            <input type="text" id="new_username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">Password:</label>
+                            <input type="password" id="new_password" name="password" required>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="is_admin" name="is_admin">
+                            <label for="is_admin">Admin Privileges</label>
+                        </div>
+                        <button type="submit" class="btn admin-btn">Add User</button>
+                    </form>
+                </div>
+                
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Is Admin</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ "Yes" if user.is_admin else "No" }}</td>
+                                <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>
+                                    {% if user.id != session.user_id %}
+                                    <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            {% endif %}
+            
+            <!-- Admin Logs Section -->
+            <section id="admin-logs" class="dashboard-section">
+                <h2>Admin Access Logs</h2>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>IP Address</th>
+                                <th>Login Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in admin_logs %}
+                            <tr>
+                                <td>{{ log.id }}</td>
+                                <td>{{ log.username }}</td>
+                                <td>{{ log.ip_address }}</td>
+                                <td>{{ log.logged_in_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

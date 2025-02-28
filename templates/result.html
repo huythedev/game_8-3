@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformation Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Add no-cache meta tags to prevent browser caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flowers left-flowers"></div>
+            <h1>Your Result</h1>
+            <div class="flowers right-flowers"></div>
+        </div>
+        
+        <!-- <div class="women-day-badge">
+            <span>Women's Day Special</span>
+        </div> -->
+        
+        <div class="card">
+            <div class="card-body">
+                <h2>Transformation Complete</h2>
+                
+                <div class="result-box">
+                    <div class="input-section">
+                        <h3>Your Input:</h3>
+                        <p>{{ input_string }}</p>
+                    </div>
+                    
+                    <div class="output-section">
+                        <h3>Transformed Result:</h3>
+                        <p class="result">{{ result }}</p>
+                    </div>
+                </div>
+                
+                <div class="notice warning">
+                    <p><strong>Important:</strong> This is your only chance to view this result!</p>
+                    <p class="small">Do not refresh this page or navigate away without saving your result.</p>
+                    <p class="small">Entry ID: {{ entry_id }}</p>
+                </div>
+                
+                <a href="{{ url_for('main.index') }}" class="btn secondary">Back to Home</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Powered by <a href="https://perrythedev.com">Perry</a></p>
+            <a href="{{ url_for('admin.login') }}" class="admin-link">Admin</a>
+        </footer>
+    </div>
+    
+    <script>
+        // Disable browser back button after viewing the result
+        window.history.pushState(null, null, window.location.href);
+        window.addEventListener('popstate', function() {
+            window.history.pushState(null, null, window.location.href);
+        });
+        
+        // Warn users if they try to leave or refresh the page
+        window.addEventListener('beforeunload', function(e) {
+            var confirmationMessage = "This page has been marked as viewed. If you leave or refresh, you will not be able to access it again without admin intervention.";
+            e.returnValue = confirmationMessage;
+            return confirmationMessage;
+        });
+    </script>
+</body>
+</html>

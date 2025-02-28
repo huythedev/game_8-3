@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flowers left-flowers"></div>
+            <h1>Error</h1>
+            <div class="flowers right-flowers"></div>
+        </div>
+        
+        <!-- <div class="women-day-badge">
+            <span>Women's Day Special</span>
+        </div> -->
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="error-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </div>
+                
+                <h2>{{ error }}</h2>
+                
+                <div class="notice error-notice">
+                    <p>Something went wrong with your request.</p>
+                </div>
+                
+                <a href="{{ url_for('main.index') }}" class="btn">Back to Home</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Powered by <a href="https://perrythedev.com">Perry</a></p>
+            <a href="{{ url_for('admin.login') }}" class="admin-link">Admin</a>
+        </footer>
+    </div>
+</body>
+</html>

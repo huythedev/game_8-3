@@ -1,0 +1,362 @@
+:root {
+    --primary-color: #FF69B4;
+    --secondary-color: #FF1493;
+    --accent-color: #DA70D6;
+    --light-color: #FFF0F5;
+    --dark-color: #333;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-image: url('../img/flowers-bg.png');
+    background-size: 300px;
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    position: relative;
+}
+
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin: 0;
+    z-index: 2;
+}
+
+.flowers {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+}
+
+.left-flowers {
+    left: 10px;
+    background-image: url('../img/flowers-left.png');
+}
+
+.right-flowers {
+    right: 10px;
+    background-image: url('../img/flowers-right.png');
+}
+
+.women-day-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transform: rotate(10deg);
+    box-shadow: var(--box-shadow);
+    z-index: 5;
+}
+
+.card {
+    padding: 20px;
+}
+
+.card-body {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.card p {
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+textarea, input {
+    width: 100%;
+    padding: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    resize: vertical;
+    min-height: 120px;
+}
+
+input {
+    min-height: auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: 500;
+}
+
+.btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn.secondary {
+    background: linear-gradient(135deg, #999, #777);
+    margin-top: 20px;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.alert-error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+footer {
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.admin-link {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.admin-link:hover {
+    color: white;
+}
+
+.result-box {
+    background-color: var(--light-color);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.input-section, .output-section {
+    margin-bottom: 15px;
+}
+
+.input-section h3, .output-section h3 {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.result {
+    font-weight: 500;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    word-break: break-all;
+}
+
+.notice {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #FFF9C4;
+    border-radius: var(--border-radius);
+}
+
+.notice.warning {
+    background-color: #FFF3CD;
+    border: 1px solid #FFEEBA;
+    color: #856404;
+}
+
+.notice.info {
+    background-color: #D1ECF1;
+    border: 1px solid #BEE5EB;
+    color: #0C5460;
+    margin-bottom: 20px;
+}
+
+.notice .small {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Admin styling */
+.admin-header {
+    background: linear-gradient(135deg, #6A1B9A, #4A148C);
+}
+
+.admin-card {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.admin-btn {
+    background: linear-gradient(135deg, #6A1B9A, #4A148C);
+}
+
+.admin-footer {
+    background-color: #4A148C;
+}
+
+.back-link {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.back-link a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
+}
+
+/* Status badges for admin dashboard */
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-badge.viewed {
+    background-color: #FFC107;
+    color: #212529;
+}
+
+.status-badge.not-viewed {
+    background-color: #28A745;
+    color: white;
+}
+
+.status-badge.enabled {
+    background-color: #007BFF;
+    color: white;
+}
+
+.status-badge.disabled {
+    background-color: #6C757D;
+    color: white;
+}
+
+/* No match and error pages */
+.no-match-icon, .error-icon {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #856404;
+}
+
+.error-icon {
+    color: #c62828;
+}
+
+.error-notice {
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+    color: #c62828;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+    }
+    
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .flowers {
+        width: 60px;
+    }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Transformer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flowers left-flowers"></div>
+            <h1>String Transformer</h1>
+            <div class="flowers right-flowers"></div>
+        </div>
+        
+        <!-- <div class="women-day-badge">
+            <span>Women's Day Special</span>
+        </div> -->
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="card">
+            <div class="card-body">
+                <h2>Enter Your String</h2>
+                
+                <div class="notice info">
+                    <p><strong>Note:</strong> Only strings with predefined patterns can be transformed.</p>
+                    <p class="small">Each transformed string can only be viewed once after transformation.</p>
+                </div>
+                
+                <form method="POST" action="{{ url_for('main.index') }}">
+                    <div class="form-group">
+                        <textarea name="input_string" placeholder="Type your string here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Transform</button>
+                </form>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Powered by <a href="https://perrythedev.com">Perry</a></p>
+            <a href="{{ url_for('admin.login') }}" class="admin-link">Manage</a>
+        </footer>
+    </div>
+</body>
+</html>
