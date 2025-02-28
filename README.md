@@ -95,7 +95,6 @@ Game_8-3/
 ├── .env.example           # Environment variables template
 │
 ├── routes/                # Route blueprints
-│   ├── __init__.py
 │   ├── admin.py           # Admin routes
 │   ├── errors.py          # Error handlers
 │   └── main.py            # Main application routes
