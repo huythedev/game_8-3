@@ -72,4 +72,5 @@ if __name__ == '__main__':
     app = create_app()
     logger = setup_logger()
     logger.info(f"Starting application on {Config.HOST}:{Config.PORT}")
-    app.run(host=Config.HOST, port=8000, debug=Config.DEBUG)
+    # Make sure we're using the HOST and PORT from config
+    app.run(host=app.config['HOST'], port=app.config['PORT'], debug=app.config['DEBUG'])

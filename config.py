@@ -38,8 +38,8 @@ class Config:
     SESSION_COOKIE_SECURE = os.environ.get('SECURE_COOKIES', 'True').lower() == 'true'
     PERMANENT_SESSION_LIFETIME = 3600  # 1 hour session lifetime
     DEBUG = False
-    HOST = os.environ.get('HOST', '0.0.0.0')
-    PORT = int(os.environ.get('PORT', 5000))
+    HOST = os.getenv('HOST', '127.0.0.1')  # Changed from 0.0.0.0 to 127.0.0.1
+    PORT = int(os.getenv('PORT', 8000))  # Adding the missing PORT attribute
     
     # Add proxy configuration
     BEHIND_PROXY = os.environ.get('BEHIND_PROXY', 'False').lower() == 'true'

@@ -120,7 +120,7 @@ Configuration is managed through environment variables, which can be set in a `.
 | SECRET_KEY | Flask secret key for session security | Random generated |
 | DATABASE_URI | SQLAlchemy database URI | sqlite:///strings.db |
 | SECURE_COOKIES | Enable secure cookies | True |
-| HOST | Host address to bind | 0.0.0.0 |
+| HOST | Host address to bind | 127.0.0.1 |
 | PORT | Port number | 8000 |
 | DEBUG | Flask debug mode | False |
 | BEHIND_PROXY | Whether app is behind a proxy | False |
