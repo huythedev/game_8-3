@@ -69,8 +69,23 @@ def create_app(test_config=None):
 
 # Application entry point
 if __name__ == '__main__':
+    # Debugging for environment variables
+    import os
+    from dotenv import load_dotenv
+    
+    # Force reload environment variables
+    load_dotenv(override=True)
+    
+    # Create explicit port variable for clarity
+    port = int(os.getenv('PORT', 8000))
+    host = os.getenv('HOST', '0.0.0.0')
+    debug = os.getenv('DEBUG', 'False').lower() == 'true'
+    
     app = create_app()
     logger = setup_logger()
-    logger.info(f"Starting application on {Config.HOST}:{Config.PORT}")
-    # Make sure we're using the HOST and PORT from config
-    app.run(host=app.config['HOST'], port=app.config['PORT'], debug=app.config['DEBUG'])
+    logger.info(f"Environment PORT value: {os.getenv('PORT')}")
+    logger.info(f"Using port: {port}")
+    logger.info(f"Starting application on {host}:{port}")
+    
+    # Use the explicit port variable
+    app.run(host=host, port=port, debug=debug)

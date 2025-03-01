@@ -12,6 +12,7 @@ The String Transformer application allows users to submit strings and receive tr
 - **Blueprint Architecture**: Modular code structure for better maintainability
 - **Proxy Support**: Properly handles real client IP addresses when behind proxies like Nginx
 - **Maintenance Utilities**: Integrated tools for maintenance and troubleshooting
+- **Mobile Support**: Dedicated mobile interface with optimized user experience
 
 ## Installation
 
@@ -96,19 +97,29 @@ game_8-3/
 │       ├── admin.css
 │       └── style.css
 │
-└── templates/             # Jinja2 HTML templates
-    ├── admin_dashboard.html
-    ├── admin_login.html
-    ├── error.html
-    ├── index.html
-    ├── no_match.html
-    ├── result.html
-    └── admin/             # Admin-specific templates
-        ├── admin_logs.html
-        ├── change_password.html
-        ├── string_entries.html
-        ├── string_pairs.html
-        └── user_management.html
+├── templates/             # Jinja2 HTML templates
+│   ├── admin_dashboard.html
+│   ├── admin_login.html
+│   ├── error.html
+│   ├── index.html
+│   ├── no_match.html
+│   ├── result.html
+│   └── admin/             # Admin-specific templates
+│       ├── admin_logs.html
+│       ├── change_password.html
+│       ├── string_entries.html
+│       ├── string_pairs.html
+│       └── user_management.html
+│
+└── mobile/                # Mobile-specific files and directories
+    ├── mobile_app.py      # Mobile application entry point
+    ├── mobile_routes.py   # Mobile-specific routes
+    ├── static/            # Mobile static files
+    │   └── css/
+    │       └── mobile.css
+    └── templates/         # Mobile-specific templates
+        ├── mobile_index.html
+        └── mobile_result.html
 ```
 
 ## Configuration
