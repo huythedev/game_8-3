@@ -11,6 +11,7 @@ The String Transformer application allows users to submit strings and receive tr
 - **Admin Dashboard**: Manage string patterns, users, and view access logs
 - **Blueprint Architecture**: Modular code structure for better maintainability
 - **Proxy Support**: Properly handles real client IP addresses when behind proxies like Nginx
+- **Maintenance Utilities**: Integrated tools for maintenance and troubleshooting
 
 ## Installation
 
@@ -73,24 +74,17 @@ game_8-3/
 ├── .env
 ├── .env.example
 ├── .gitattributes
+├── .gitignore
 ├── app.py                 # Application entry point
 ├── config.py              # Configuration settings
-├── fix_critical_templates.py # Script to fix critical templates
-├── fix_database.py        # Script to fix database issues
-├── fix_routes.py          # Script to fix route issues
 ├── generate_key.py        # Script to generate secret keys
+├── maintenance.py         # Consolidated maintenance utility menu
 ├── middleware.py          # Proxy handling middleware
 ├── models.py              # Database models
-├── quick_fix.py           # Script for quick fixes
 ├── README.md
 ├── requirements.txt       # Python dependencies
-├── reset_database.py      # Script to reset the database
-├── utils.py               # Utility functions
+├── utils.py               # Utility functions & maintenance tools
 ├── wsgi.py                # WSGI entry point for production
-│
-├── instance/              # Instance folder for SQLite database
-│
-├── logs/                  # Application logs directory
 │
 ├── routes/                # Route blueprints
 │   ├── admin.py           # Admin routes
@@ -108,7 +102,13 @@ game_8-3/
     ├── error.html
     ├── index.html
     ├── no_match.html
-    └── result.html
+    ├── result.html
+    └── admin/             # Admin-specific templates
+        ├── admin_logs.html
+        ├── change_password.html
+        ├── string_entries.html
+        ├── string_pairs.html
+        └── user_management.html
 ```
 
 ## Configuration
@@ -133,6 +133,22 @@ After installation, you can access the admin interface at `/admin/login` with th
 - **Password**: 123
 
 *Important: Change this password immediately after first login!*
+
+## Maintenance Utilities
+
+The application includes a comprehensive maintenance utility that can help fix common issues:
+
+```bash
+python maintenance.py
+```
+
+This provides a menu-driven interface for:
+
+1. Resetting the database
+2. Fixing database issues
+3. Fixing route issues
+4. Checking critical templates
+5. Performing a quick fix of all systems
 
 ## Production Deployment
 
@@ -164,19 +180,12 @@ Also, set `BEHIND_PROXY=True` in your `.env` file.
 
 ## Troubleshooting
 
-### URL Errors After Refactoring
-
-If you encounter URL building errors after code updates, run the fix script:
-
-```bash
-python fix_routes.py
-```
-
 ### Common Issues
 
-- **Database Errors**: If you encounter database errors, delete the `strings.db` file and restart the application.
+- **Database Errors**: Run the maintenance utility and choose "Fix Database Issues" or "Reset Database" option.
 - **Permission Denied**: Ensure the directory has proper write permissions for log files.
-- **Missing Templates**: Verify templates directory is properly installed.
+- **Missing Templates**: Use the "Fix Critical Templates" option in the maintenance menu.
+- **Route Issues**: Select "Fix Route Issues" from the maintenance menu.
 
 ## Development
 
