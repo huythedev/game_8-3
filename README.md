@@ -67,61 +67,7 @@ The String Transformer application allows users to submit strings and receive tr
    ```bash
    python3 app.py
    ```
-
-## Project Structure
-
-```
-game_8-3/
-├── .env
-├── .env.example
-├── .gitattributes
-├── .gitignore
-├── app.py                 # Application entry point
-├── config.py              # Configuration settings
-├── generate_key.py        # Script to generate secret keys
-├── maintenance.py         # Consolidated maintenance utility menu
-├── middleware.py          # Proxy handling middleware
-├── models.py              # Database models
-├── README.md
-├── requirements.txt       # Python dependencies
-├── utils.py               # Utility functions & maintenance tools
-├── wsgi.py                # WSGI entry point for production
-│
-├── routes/                # Route blueprints
-│   ├── admin.py           # Admin routes
-│   ├── errors.py          # Error handlers
-│   └── main.py            # Main application routes
-│
-├── static/                # Static files (CSS, JS, images)
-│   └── css/
-│       ├── admin.css
-│       └── style.css
-│
-├── templates/             # Jinja2 HTML templates
-│   ├── admin_dashboard.html
-│   ├── admin_login.html
-│   ├── error.html
-│   ├── index.html
-│   ├── no_match.html
-│   ├── result.html
-│   └── admin/             # Admin-specific templates
-│       ├── admin_logs.html
-│       ├── change_password.html
-│       ├── string_entries.html
-│       ├── string_pairs.html
-│       └── user_management.html
-│
-└── mobile/                # Mobile-specific files and directories
-    ├── mobile_app.py      # Mobile application entry point
-    ├── mobile_routes.py   # Mobile-specific routes
-    ├── static/            # Mobile static files
-    │   └── css/
-    │       └── mobile.css
-    └── templates/         # Mobile-specific templates
-        ├── mobile_index.html
-        └── mobile_result.html
-```
-
+   
 ## Configuration
 
 Configuration is managed through environment variables, which can be set in a `.env` file:
