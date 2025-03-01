@@ -239,3 +239,28 @@ def logout():
     session.clear()
     logger.info(f"User logged out: {username}")
     return redirect(url_for('main.index'))
+
+@admin_bp.route('/entries/clear_all', methods=['POST'])
+@login_required
+@admin_required
+def clear_all_entries():
+    if not session.get('is_admin'):
+        flash("Only administrators can clear all entries", "error")
+        return redirect(url_for('admin.dashboard'))
+    
+    try:
+        # Count entries before deletion for logging and feedback
+        entries_count = StringEntry.query.count()
+        
+        # Delete all entries
+        StringEntry.query.delete()
+        db.session.commit()
+        
+        logger.warning(f"All string entries ({entries_count}) cleared by admin: {session.get('username')}")
+        flash(f"Successfully cleared {entries_count} string entries", "success")
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error clearing entries: {str(e)}", exc_info=True)
+        flash(f"Error clearing entries: {str(e)}", "error")
+        
+    return redirect(url_for('admin.dashboard'))

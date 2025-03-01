@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage dashboard</title>
+    <title>Management Portal</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container animate__animated animate__fadeIn">
         <div class="header admin-header">
-            <h1>Manage dashboard</h1>
+            <h1>Management Portal</h1>
         </div>
         
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
+                    <div class="alert alert-{{ category }} animate__animated animate__fadeInDown">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -25,29 +26,158 @@
         
         <div class="card admin-card">
             <div class="card-body">
-                <h2>Enter Password</h2>
+                <h2>Authentication Required</h2>
                 
-                <form method="POST" action="{{ url_for('admin.login') }}">
+                <form method="POST" action="{{ url_for('admin.login') }}" class="animate__animated animate__fadeIn animate__delay-1s">
                     <div class="form-group">
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="username" required>
+                        <label for="username">Username</label>
+                        <div class="input-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="input-icon" viewBox="0 0 16 16">
+                                <path d="M8 7C9.65685 7 11 5.65685 11 4C11 2.34315 9.65685 1 8 1C6.34315 1 5 2.34315 5 4C5 5.65685 6.34315 7 8 7Z" />
+                                <path d="M14 12C14 10.3431 12.6569 9 11 9H5C3.34315 9 2 10.3431 2 12V15H14V12Z" />
+                            </svg>
+                            <input type="text" id="username" name="username" placeholder="Enter your username" required autofocus>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="input-icon" viewBox="0 0 512.003 512.003">
+                                <g>
+                                    <g>
+                                        <path d="M480.71,56.397L430.596,6.283c-8.376-8.377-21.958-8.377-30.335,0c-8.377,8.377-8.377,21.959,0,30.335l34.948,34.947 l-12.46,12.46l-14.177-14.177c-8.374-8.377-21.958-8.377-30.335,0c-8.377,8.376-8.377,21.958,0,30.335l14.177,14.177l-12.46,12.46 l-34.947-34.947c-8.376-8.376-21.958-8.376-30.335,0c-8.377,8.377-8.377,21.958,0,30.337l34.947,34.947L243.653,263.122 c-53.793-39.18-129.789-34.528-178.295,13.978c-53.792,53.79-53.797,140.854,0,194.653 c53.663,53.663,140.985,53.667,194.652-0.001c48.505-48.506,53.157-124.502,13.978-178.295L480.713,86.733 C489.081,78.362,489.087,64.772,480.71,56.397z M229.674,441.415c-36.939,36.94-97.043,36.939-133.982,0 c-37.026-37.023-37.029-96.953,0-133.98c36.938-36.939,97.043-36.94,133.98,0C266.611,344.372,266.611,404.476,229.674,441.415z" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                            <button type="button" id="togglePassword" class="password-toggle" tabindex="-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="show-password" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="hide-password" viewBox="0 0 16 16" style="display:none">
+                                    <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
+                                    <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
+                                    <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn admin-btn">Login</button>
+                    <button type="submit" class="btn admin-btn">
+                        <span>Login</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                        </svg>
+                    </button>
                 </form>
             </div>
         </div>
         
-        <div class="back-link">
+        <div class="back-link animate__animated animate__fadeIn animate__delay-2s">
             <a href="{{ url_for('main.index') }}">Back to Main Page</a>
         </div>
         
         <footer class="admin-footer">
-            <p>Manage dashboard - Restricted Access</p>
+            <p>Management Portal - Restricted Access</p>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle password visibility
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const showIcon = document.querySelector('.show-password');
+            const hideIcon = document.querySelector('.hide-password');
+            
+            if(togglePassword) {
+                togglePassword.addEventListener('click', function () {
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    
+                    // Toggle icons
+                    if (type === 'text') {
+                        showIcon.style.display = 'none';
+                        hideIcon.style.display = 'block';
+                    } else {
+                        showIcon.style.display = 'block';
+                        hideIcon.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Add animation to button on hover
+            const btn = document.querySelector('.btn');
+            if(btn) {
+                btn.addEventListener('mouseenter', function() {
+                    this.classList.add('animate__animated', 'animate__pulse');
+                });
+                btn.addEventListener('animationend', function() {
+                    this.classList.remove('animate__animated', 'animate__pulse');
+                });
+            }
+            
+            // Focus username field on load
+            const username = document.getElementById('username');
+            if(username) {
+                setTimeout(() => username.focus(), 500);
+            }
+        });
+    </script>
+    
+    <style>
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            color: #6b7280;
+        }
+        
+        .input-wrapper input {
+            padding-left: 40px;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        
+        .password-toggle:hover {
+            color: var(--primary-color);
+        }
+        
+        .password-toggle:focus {
+            outline: none;
+        }
+        
+        .btn svg {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover svg {
+            transform: translateX(5px);
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+    </style>
 </body>
 </html>

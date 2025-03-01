@@ -1,0 +1,49 @@
+<!-- String Pairs Section -->
+<section id="string-pairs" class="dashboard-section">
+    <h2>String Transformation Pairs</h2>
+    <div class="action-box">
+        <h3>Add New String Pair</h3>
+        <form method="POST" action="{{ url_for('admin.add_string_pair') }}" class="inline-form">
+            <div class="form-group">
+                <label for="input_pattern">Input Pattern:</label>
+                <input type="text" id="input_pattern" name="input_pattern" required>
+            </div>
+            <div class="form-group">
+                <label for="output_pattern">Output Pattern:</label>
+                <input type="text" id="output_pattern" name="output_pattern" required>
+            </div>
+            <button type="submit" class="btn admin-btn">Add Pair</button>
+        </form>
+    </div>
+    
+    <div class="data-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Input Pattern</th>
+                    <th>Output Pattern</th>
+                    <th>Created By</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pair in string_pairs %}
+                <tr>
+                    <td>{{ pair.id }}</td>
+                    <td>{{ pair.input_pattern }}</td>
+                    <td>{{ pair.output_pattern }}</td>
+                    <td>{{ pair.created_by }}</td>
+                    <td>{{ pair.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('admin.delete_string_pair', pair_id=pair.id) }}" onsubmit="return confirm('Are you sure you want to delete this pair?')">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>

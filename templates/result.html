@@ -5,69 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transformation Result</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <!-- Add no-cache meta tags to prevent browser caching -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 </head>
 <body>
-    <div class="container">
+    <div class="container animate__animated animate__fadeIn">
         <div class="header">
-            <div class="flowers left-flowers"></div>
-            <h1>Your Result</h1>
-            <div class="flowers right-flowers"></div>
+            <h1>String Transformer</h1>
         </div>
-        
-        <!-- <div class="women-day-badge">
-            <span>Women's Day Special</span>
-        </div> -->
-        
+
         <div class="card">
             <div class="card-body">
-                <h2>Transformation Complete</h2>
-                
-                <div class="result-box">
+                <h2>Transformation Result</h2>
+
+                <div class="result-box animate__animated animate__fadeInUp">
                     <div class="input-section">
-                        <h3>Your Input:</h3>
+                        <h3>Your Input</h3>
                         <p>{{ input_string }}</p>
                     </div>
-                    
                     <div class="output-section">
-                        <h3>Transformed Result:</h3>
-                        <p class="result">{{ result }}</p>
+                        <h3>Transformed Result</h3>
+                        <div class="result" id="result">{{ result }}</div>
                     </div>
                 </div>
-                
-                <div class="notice warning">
-                    <p><strong>Important:</strong> This is your only chance to view this result!</p>
-                    <p class="small">Do not refresh this page or navigate away without saving your result.</p>
-                    <p class="small">Entry ID: {{ entry_id }}</p>
+
+                {% if one_time %}
+                <div class="notice warning animate__animated animate__fadeInUp animate__delay-1s">
+                    <p><strong>Important:</strong> This is a one-time view.</p>
+                    <p class="small">This transformed result cannot be accessed again. Please copy it if needed.</p>
                 </div>
-                
-                <a href="{{ url_for('main.index') }}" class="btn secondary">Back to Home</a>
+                {% endif %}
+
+                <div class="actions animate__animated animate__fadeInUp animate__delay-2s">
+                    <button id="copyBtn" class="btn btn-info" onclick="copyToClipboard()">
+                        <span>Copy Result</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        </svg>
+                    </button>
+                    <a href="{{ url_for('main.index') }}" class="btn">
+                        <span>Transform Another</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
-        
+
         <footer>
             <p>Powered by <a href="https://perrythedev.com">Perry</a></p>
-            <a href="{{ url_for('admin.login') }}" class="admin-link">Admin</a>
+            <a href="{{ url_for('admin.login') }}" class="admin-link">Manage</a>
         </footer>
     </div>
-    
+
     <script>
-        // Disable browser back button after viewing the result
-        window.history.pushState(null, null, window.location.href);
-        window.addEventListener('popstate', function() {
-            window.history.pushState(null, null, window.location.href);
-        });
-        
-        // Warn users if they try to leave or refresh the page
-        window.addEventListener('beforeunload', function(e) {
-            var confirmationMessage = "This page has been marked as viewed. If you leave or refresh, you will not be able to access it again without admin intervention.";
-            e.returnValue = confirmationMessage;
-            return confirmationMessage;
+        function copyToClipboard() {
+            const resultText = document.getElementById('result').innerText;
+            navigator.clipboard.writeText(resultText).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                const originalHtml = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<span>Copied!</span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>';
+                copyBtn.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHtml;
+                    copyBtn.classList.remove('btn-success');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                alert('Failed to copy text. Please select and copy manually.');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animations to buttons on hover
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.classList.add('animate__animated', 'animate__pulse');
+                });
+                btn.addEventListener('animationend', function() {
+                    this.classList.remove('animate__animated', 'animate__pulse');
+                });
+            });
+            
+            // If one-time view, add confetti effect
+            {% if one_time %}
+                const resultElem = document.querySelector('.result');
+                resultElem.classList.add('animate__animated', 'animate__flash');
+            {% endif %}
         });
     </script>
+
+    <style>
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .actions .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0;
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+        
+        .btn-info:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .btn svg {
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover svg {
+            transform: translateY(-2px);
+        }
+        
+        .result {
+            position: relative;
+            padding: 15px;
+            background-color: #f9fafb;
+            border-radius: 8px;
+            margin-top: 10px;
+            word-break: break-all;
+            border-left: 4px solid var(--primary-color);
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            line-height: 1.5;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 6px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </body>
 </html>

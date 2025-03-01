@@ -3,270 +3,550 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>manage dashboard</title>
+    <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 </head>
 <body class="admin-body">
+    <button class="responsive-menu-toggle" id="sidebar-toggle" aria-label="Toggle menu">
+        <i data-feather="menu"></i>
+    </button>
+    
     <div class="admin-container">
-        <div class="admin-sidebar">
+        <aside class="admin-sidebar" id="sidebar">
             <div class="admin-logo">
-                <h2>Admin Panel</h2>
+                <h2>Dashboard</h2>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i data-feather="moon"></i>
+                </button>
             </div>
+            
             <nav class="admin-nav">
                 <ul>
-                    <li><a href="#change-password">Change Password</a></li>
-                    <li><a href="#string-pairs">String Pairs</a></li>
-                    <li><a href="#string-entries">String Entries</a></li>
-                    {% if session.is_admin %}
-                    <li><a href="#user-management">User Management</a></li>
-                    {% endif %}
-                    <li><a href="#admin-logs">Admin Logs</a></li>
+                    <li class="active">
+                        <a href="#dashboard">
+                            <i data-feather="grid"></i> Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#string-entries">
+                            <i data-feather="list"></i> String Entries
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#string-pairs">
+                            <i data-feather="link"></i> String Pairs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#user-management">
+                            <i data-feather="users"></i> User Management
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#access-logs">
+                            <i data-feather="activity"></i> Access Logs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#account">
+                            <i data-feather="user"></i> My Account
+                        </a>
+                    </li>
                 </ul>
             </nav>
+            
             <div class="admin-actions">
-                <a href="{{ url_for('admin.logout') }}" class="logout-btn">Logout</a>
+                <a href="{{ url_for('admin.logout') }}" class="logout-btn">
+                    <i data-feather="log-out"></i> Logout
+                </a>
             </div>
-        </div>
+        </aside>
         
-        <div class="admin-content">
+        <main class="admin-content">
             <header class="admin-header">
-                <h1>Dashboard</h1>
+                <h1>Dashboard Overview</h1>
                 <div class="admin-user">
-                    <span>Logged in as {{ session.username }}</span>
-                    {% if session.is_admin %}
-                    <span class="admin-badge">Admin</span>
-                    {% endif %}
+                    <div class="admin-user-info">
+                        <div class="admin-user-name">{{ session.get('username') }}</div>
+                        <span class="admin-badge">
+                            {% if session.get('is_admin') %}Administrator{% else %}Staff{% endif %}
+                        </span>
+                    </div>
+                    <div class="admin-avatar">
+                        {{ session.get('username')[0] | upper }}
+                    </div>
                 </div>
             </header>
-
+            
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">
+                        <div class="alert alert-{{ category }} animate__animated animate__fadeInDown">
                             {{ message }}
                         </div>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
             
-            <!-- Password Change Section -->
-            <section id="change-password" class="dashboard-section">
-                <h2>Change Password</h2>
-                <div class="action-box">
-                    <h3>Update Your Password</h3>
-                    <form method="POST" action="{{ url_for('admin.change_password') }}" class="inline-form">
-                        <div class="form-group">
-                            <label for="current_password">Current Password:</label>
-                            <input type="password" id="current_password" name="current_password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="new_password">New Password:</label>
-                            <input type="password" id="new_password" name="new_password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm_password">Confirm New Password:</label>
-                            <input type="password" id="confirm_password" name="confirm_password" required>
-                        </div>
-                        <button type="submit" class="btn admin-btn">Change Password</button>
-                    </form>
+            <section class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i data-feather="file-text"></i>
+                    </div>
+                    <div class="stat-value">{{ string_entries|length }}</div>
+                    <div class="stat-label">Total String Entries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i data-feather="eye"></i>
+                    </div>
+                    <div class="stat-value">{{ string_entries|selectattr('accessed')|list|length }}</div>
+                    <div class="stat-label">Accessed Entries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i data-feather="link-2"></i>
+                    </div>
+                    <div class="stat-value">{{ string_pairs|length }}</div>
+                    <div class="stat-label">Active Patterns</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i data-feather="user-check"></i>
+                    </div>
+                    <div class="stat-value">{{ users|length }}</div>
+                    <div class="stat-label">Registered Users</div>
                 </div>
             </section>
             
-            <!-- String Pairs Section -->
-            <section id="string-pairs" class="dashboard-section">
-                <h2>String Transformation Pairs</h2>
-                <div class="action-box">
-                    <h3>Add New String Pair</h3>
-                    <form method="POST" action="{{ url_for('admin.add_string_pair') }}" class="inline-form">
-                        <div class="form-group">
-                            <label for="input_pattern">Input Pattern:</label>
-                            <input type="text" id="input_pattern" name="input_pattern" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="output_pattern">Output Pattern:</label>
-                            <input type="text" id="output_pattern" name="output_pattern" required>
-                        </div>
-                        <button type="submit" class="btn admin-btn">Add Pair</button>
-                    </form>
-                </div>
+            <div class="dashboard-wrapper">
+                <h2 class="dashboard-main-title">
+                    <i data-feather="layout"></i>
+                    Dashboard Sections
+                </h2>
                 
-                <div class="data-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Input Pattern</th>
-                                <th>Output Pattern</th>
-                                <th>Created By</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for pair in string_pairs %}
-                            <tr>
-                                <td>{{ pair.id }}</td>
-                                <td>{{ pair.input_pattern }}</td>
-                                <td>{{ pair.output_pattern }}</td>
-                                <td>{{ pair.created_by }}</td>
-                                <td>{{ pair.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                                <td>
-                                    <form method="POST" action="{{ url_for('admin.delete_string_pair', pair_id=pair.id) }}" onsubmit="return confirm('Are you sure you want to delete this pair?')">
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            
-            <!-- String Entries Section -->
-            <section id="string-entries" class="dashboard-section">
-                <h2>String Transformations History</h2>
-                <p class="dashboard-info">
-                    Each string can only be viewed once by default. To allow a string to be viewed again, 
-                    enable reaccess using the button below. Once enabled, the next view will mark it as used again.
-                </p>
-                <div class="data-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Input String</th>
-                                <th>Transformed String</th>
-                                <th>IP Address</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for entry in string_entries %}
-                            <tr class="{% if entry.accessed and not entry.reaccesible %}entry-used{% endif %}">
-                                <td>{{ entry.id }}</td>
-                                <td>{{ entry.input_string }}</td>
-                                <td>{{ entry.transformed_string }}</td>
-                                <td>{{ entry.ip_address }}</td>
-                                <td>
-                                    {% if entry.accessed and not entry.reaccesible %}
-                                    <span class="status-badge viewed">Used - Cannot Access</span>
-                                    {% elif entry.accessed and entry.reaccesible %}
-                                    <span class="status-badge enabled">Used - Reaccess Enabled</span>
-                                    {% elif not entry.accessed %}
-                                    <span class="status-badge not-viewed">Not Viewed Yet</span>
-                                    {% endif %}
-                                </td>
-                                <td>{{ entry.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                                <td class="actions-cell">
-                                    <form method="POST" action="{{ url_for('admin.toggle_reaccess', entry_id=entry.id) }}" class="inline-form-action">
-                                        {% if entry.accessed and not entry.reaccesible %}
-                                            <!-- <button type="submit" class="btn btn-sm btn-success">Enable Viewing</button> -->
-                                        {% elif entry.reaccesible %}
-                                            <button type="submit" class="btn btn-sm btn-warning">Disable Reaccess</button>
-                                        {% else %}
-                                            <span class="status-text">No action needed</span>
-                                        {% endif %}
-                                    </form>
-                                    
-                                    <!-- Delete button -->
-                                    <form method="POST" action="{{ url_for('admin.delete_entry', entry_id=entry.id) }}" onsubmit="return confirm('Are you sure you want to delete this entry?')" class="inline-form-action">
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            
-            <!-- User Management Section - Only for Admins -->
-            {% if session.is_admin %}
-            <section id="user-management" class="dashboard-section">
-                <h2>User Management</h2>
-                <div class="action-box">
-                    <h3>Add New User</h3>
-                    <form method="POST" action="{{ url_for('admin.add_user') }}" class="inline-form">
-                        <div class="form-group">
-                            <label for="new_username">Username:</label>
-                            <input type="text" id="new_username" name="username" required>
+                <section id="string-entries" class="dashboard-section">
+                    <h2>
+                        <i data-feather="list"></i>
+                        String Entries
+                    </h2>
+                    <div class="dashboard-info">
+                        This section shows all string transformations that have been processed.
+                        You can manage access and delete entries as needed.
+                    </div>
+                    
+                    <div class="action-box">
+                        <h3>Manage Entries</h3>
+                        <div class="admin-actions-bar">
+                            <form method="POST" action="{{ url_for('admin.clear_all_entries') }}" 
+                                  onsubmit="return confirm('Are you sure you want to delete ALL string entries? This action cannot be undone.');" 
+                                  class="inline-form-action">
+                                <button type="submit" class="btn btn-danger btn-sm btn-icon">
+                                    <i data-feather="trash"></i>
+                                    Clear All Entries
+                                </button>
+                            </form>
+                            <span class="action-hint">This will permanently delete all string entries from the database.</span>
                         </div>
-                        <div class="form-group">
-                            <label for="new_password">Password:</label>
-                            <input type="password" id="new_password" name="password" required>
-                        </div>
-                        <div class="form-group checkbox-group">
-                            <input type="checkbox" id="is_admin" name="is_admin">
-                            <label for="is_admin">Admin Privileges</label>
-                        </div>
-                        <button type="submit" class="btn admin-btn">Add User</button>
-                    </form>
-                </div>
+                    </div>
+                    
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Input String</th>
+                                    <th>Transformed</th>
+                                    <th>IP Address</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for entry in string_entries %}
+                                    <tr class="{{ 'entry-used' if entry.accessed else '' }}">
+                                        <td>{{ entry.id }}</td>
+                                        <td>{{ entry.input_string }}</td>
+                                        <td>{{ entry.transformed_string }}</td>
+                                        <td>{{ entry.ip_address }}</td>
+                                        <td>
+                                            {% if entry.accessed %}
+                                                <span class="status-badge viewed">Viewed</span>
+                                            {% else %}
+                                                <span class="status-badge not-viewed">Not Viewed</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ entry.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td class="actions-cell">
+                                            <form method="POST" action="{{ url_for('admin.toggle_reaccess', entry_id=entry.id) }}" class="inline-form-action">
+                                                <!-- <button type="submit" class="btn btn-sm {{ 'btn-info' if entry.reaccesible else 'btn-warning' }} btn-icon">
+                                                    <i data-feather="{{ 'lock-open' if entry.reaccesible else 'lock' }}"></i>
+                                                    {{ 'Disable Reaccess' if entry.reaccesible else 'Enable Reaccess' }}
+                                                </button> -->
+                                            </form>
+                                            <form method="POST" action="{{ url_for('admin.delete_entry', entry_id=entry.id) }}" class="inline-form-action" onsubmit="return confirm('Are you sure you want to delete this entry?');">
+                                                <button type="submit" class="btn btn-sm btn-danger btn-icon">
+                                                    <i data-feather="trash-2"></i>
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7" style="text-align: center;">No string entries found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
                 
-                <div class="data-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>Is Admin</th>
-                                <th>Created</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for user in users %}
-                            <tr>
-                                <td>{{ user.id }}</td>
-                                <td>{{ user.username }}</td>
-                                <td>{{ "Yes" if user.is_admin else "No" }}</td>
-                                <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                                <td>
-                                    {% if user.id != session.user_id %}
-                                    <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" onsubmit="return confirm('Are you sure you want to delete this user?')">
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            {% endif %}
+                <section id="string-pairs" class="dashboard-section">
+                    <h2>
+                        <i data-feather="link"></i>
+                        String Transformation Patterns
+                    </h2>
+                    <div class="dashboard-info">
+                        Manage the patterns and transformations that are available to users.
+                    </div>
+                    
+                    <div class="action-box">
+                        <h3>Add New Pattern</h3>
+                        <form method="POST" action="{{ url_for('admin.add_string_pair') }}" class="inline-form">
+                            <div class="form-group">
+                                <label for="input_pattern">Input Pattern</label>
+                                <input type="text" id="input_pattern" name="input_pattern" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="output_pattern">Output Pattern</label>
+                                <input type="text" id="output_pattern" name="output_pattern" required>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-sm btn-icon">
+                                <i data-feather="plus"></i>
+                                Add Pattern
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Input Pattern</th>
+                                    <th>Output Pattern</th>
+                                    <th>Created By</th>
+                                    <th>Created At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pair in string_pairs %}
+                                    <tr>
+                                        <td>{{ pair.id }}</td>
+                                        <td>{{ pair.input_pattern }}</td>
+                                        <td>{{ pair.output_pattern }}</td>
+                                        <td>
+                                            {% for user in users %}
+                                                {% if user.id == pair.created_by %}
+                                                    {{ user.username }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ pair.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>
+                                            <form method="POST" action="{{ url_for('admin.delete_string_pair', pair_id=pair.id) }}" onsubmit="return confirm('Are you sure you want to delete this pattern?');">
+                                                <button type="submit" class="btn btn-sm btn-danger btn-icon">
+                                                    <i data-feather="trash-2"></i>
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" style="text-align: center;">No string patterns found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                {% if session.get('is_admin') %}
+                <section id="user-management" class="dashboard-section">
+                    <h2>
+                        <i data-feather="users"></i>
+                        User Management
+                    </h2>
+                    <div class="dashboard-info">
+                        Manage user accounts. Only administrators can add or delete users.
+                    </div>
+                    
+                    <div class="action-box">
+                        <h3>Add New User</h3>
+                        <form method="POST" action="{{ url_for('admin.add_user') }}" class="inline-form">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" id="username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="is_admin" name="is_admin">
+                                    <label for="is_admin">Administrator</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-sm btn-icon">
+                                <i data-feather="user-plus"></i>
+                                Add User
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Created At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <td>{{ user.id }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td>
+                                            <span class="status-badge {{ 'enabled' if user.is_admin else 'disabled' }}">
+                                                {{ 'Administrator' if user.is_admin else 'Staff' }}
+                                            </span>
+                                        </td>
+                                        <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>
+                                            {% if user.id != session.get('user_id') %}
+                                                <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                                    <button type="submit" class="btn btn-sm btn-danger btn-icon">
+                                                        <i data-feather="user-x"></i>
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <span class="status-text">Current User</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5" style="text-align: center;">No users found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                {% endif %}
+                
+                <section id="access-logs" class="dashboard-section">
+                    <h2>
+                        <i data-feather="activity"></i>
+                        Access Logs
+                    </h2>
+                    <div class="dashboard-info">
+                        This section shows all admin login activity on the system.
+                    </div>
+                    
+                    <div class="data-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>IP Address</th>
+                                    <th>Login Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for log in admin_logs %}
+                                    <tr>
+                                        <td>{{ log.id }}</td>
+                                        <td>{{ log.username }}</td>
+                                        <td>{{ log.ip_address }}</td>
+                                        <td>{{ log.logged_in_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4" style="text-align: center;">No access logs found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <section id="account" class="dashboard-section">
+                    <h2>
+                        <i data-feather="user"></i>
+                        My Account
+                    </h2>
+                    <div class="dashboard-info">
+                        Update your account settings and change your password.
+                    </div>
+                    
+                    <div class="action-box">
+                        <h3>Change Password</h3>
+                        <form method="POST" action="{{ url_for('admin.change_password') }}" class="inline-form">
+                            <div class="form-group">
+                                <label for="current_password">Current Password</label>
+                                <input type="password" id="current_password" name="current_password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new_password">New Password</label>
+                                <input type="password" id="new_password" name="new_password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm Password</label>
+                                <input type="password" id="confirm_password" name="confirm_password" required>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-sm btn-icon">
+                                <i data-feather="save"></i>
+                                Update Password
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
             
-            <!-- Admin Logs Section -->
-            <section id="admin-logs" class="dashboard-section">
-                <h2>Admin Access Logs</h2>
-                <div class="data-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Username</th>
-                                <th>IP Address</th>
-                                <th>Login Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for log in admin_logs %}
-                            <tr>
-                                <td>{{ log.id }}</td>
-                                <td>{{ log.username }}</td>
-                                <td>{{ log.ip_address }}</td>
-                                <td>{{ log.logged_in_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </div>
+            <!-- Add bottom spacer for better scrolling -->
+            <div id="bottom-spacer"></div>
+        </main>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize feather icons
+            feather.replace();
+            
+            // Calculate and set bottom spacer height to ensure all sections can be active
+            function setBottomSpacerHeight() {
+                const viewportHeight = window.innerHeight;
+                const lastSection = document.querySelector('#account');
+                const bottomSpacer = document.getElementById('bottom-spacer');
+                
+                if (lastSection && bottomSpacer) {
+                    const lastSectionHeight = lastSection.offsetHeight;
+                    const lastSectionTop = lastSection.offsetTop;
+                    const requiredSpace = viewportHeight - (lastSectionHeight / 2);
+                    
+                    // Calculate how much space we need to add
+                    const currentSpace = document.body.scrollHeight - lastSectionTop - lastSectionHeight;
+                    const additionalSpace = Math.max(0, requiredSpace - currentSpace);
+                    
+                    bottomSpacer.style.height = additionalSpace + 'px';
+                }
+            }
+            
+            // Set initial height and update on resize
+            setBottomSpacerHeight();
+            window.addEventListener('resize', setBottomSpacerHeight);
+            
+            // Toggle sidebar on mobile
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
+            
+            // Navigation scrolling
+            const navLinks = document.querySelectorAll('.admin-nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(item => {
+                        item.parentElement.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.parentElement.classList.add('active');
+                    
+                    // Get target section ID
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    // Scroll to section
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                    
+                    // Close sidebar on mobile
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Improved highlight current section based on scroll position
+            window.addEventListener('scroll', highlightNavigation);
+            
+            function highlightNavigation() {
+                const sections = document.querySelectorAll('.dashboard-section');
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+                
+                // Find the section that's currently in view
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && 
+                        scrollPosition <= sectionTop + sectionHeight) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+                
+                // Special case for last section when scrolled to bottom
+                const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+                if (window.scrollY + 20 >= scrollMax) {
+                    const lastSection = sections[sections.length - 1];
+                    if (lastSection) {
+                        currentSectionId = lastSection.getAttribute('id');
+                    }
+                }
+                
+                // Update active link
+                navLinks.forEach(link => {
+                    link.parentElement.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.parentElement.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+    <style>
+        /* Add styling for the bottom spacer */
+        #bottom-spacer {
+            min-height: 100px; /* Minimum height as fallback */
+        }
+    </style>
 </body>
 </html>

@@ -5,24 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>String Transformer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container animate__animated animate__fadeIn">
         <div class="header">
-            <div class="flowers left-flowers"></div>
             <h1>String Transformer</h1>
-            <div class="flowers right-flowers"></div>
         </div>
-        
-        <!-- <div class="women-day-badge">
-            <span>Women's Day Special</span>
-        </div> -->
         
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">
+                    <div class="alert alert-{{ category }} animate__animated animate__fadeInDown">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -31,7 +26,7 @@
         
         <div class="card">
             <div class="card-body">
-                <h2>Enter Your String</h2>
+                <h2>Transform Your String</h2>
                 
                 <div class="notice info">
                     <p><strong>Note:</strong> Only strings with predefined patterns can be transformed.</p>
@@ -42,7 +37,9 @@
                     <div class="form-group">
                         <textarea name="input_string" placeholder="Type your string here..." required></textarea>
                     </div>
-                    <button type="submit" class="btn">Transform</button>
+                    <button type="submit" class="btn">
+                        <span>Transform</span>
+                    </button>
                 </form>
             </div>
         </div>
@@ -52,5 +49,24 @@
             <a href="{{ url_for('admin.login') }}" class="admin-link">Manage</a>
         </footer>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add animation to button on hover
+        const btn = document.querySelector('.btn');
+        btn.addEventListener('mouseenter', function() {
+            this.classList.add('animate__animated', 'animate__pulse');
+        });
+        btn.addEventListener('animationend', function() {
+            this.classList.remove('animate__animated', 'animate__pulse');
+        });
+        
+        // Focus textarea when page loads
+        const textarea = document.querySelector('textarea');
+        if (textarea) {
+            setTimeout(() => textarea.focus(), 500);
+        }
+    });
+    </script>
 </body>
 </html>

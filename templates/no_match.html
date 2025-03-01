@@ -3,52 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No Match Found</title>
+    <title>No Match Found - String Transformer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container animate__animated animate__fadeIn">
         <div class="header">
-            <div class="flowers left-flowers"></div>
             <h1>String Transformer</h1>
-            <div class="flowers right-flowers"></div>
         </div>
-        
-        <!-- <div class="women-day-badge">
-            <span>Women's Day Special</span>
-        </div> -->
-        
+
         <div class="card">
-            <div class="card-body">
-                <div class="no-match-icon">
+            <div class="card-body text-center">
+                <div class="no-match-icon animate__animated animate__swing">
                     <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
-                        <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
                     </svg>
                 </div>
                 
-                <h2>Access Denied</h2>
+                <h2>No Matching Pattern Found</h2>
                 
-                <div class="notice warning">
-                    {% if message %}
-                    <p>{{ message }}</p>
-                    {% else %}
-                    <p>This result has already been viewed or no matching pattern was found.</p>
-                    {% endif %}
-                    <p class="small">Each transformed string can only be viewed once unless an administrator enables reaccess.</p>
+                <div class="notice warning animate__animated animate__fadeIn animate__delay-1s">
+                    <p>{{ message|default("The string you entered doesn't match any of our defined transformation patterns.") }}</p>
+                    <p class="small">Please try a different string or return to the home page.</p>
                 </div>
                 
-                <p>Would you like to transform a different string?</p>
-                
-                <a href="{{ url_for('main.index') }}" class="btn">Try Again</a>
+                <div class="actions animate__animated animate__fadeIn animate__delay-2s">
+                    <a href="javascript:history.back()" class="btn btn-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                        </svg>
+                        <span>Go Back</span>
+                    </a>
+                    <a href="{{ url_for('main.index') }}" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                            <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                        </svg>
+                        <span>Try Again</span>
+                    </a>
+                </div>
+
+                <div class="hint-section animate__animated animate__fadeIn animate__delay-3s">
+                    <h3>Example Patterns</h3>
+                    <p class="small">Try one of the following patterns:</p>
+                    <ul class="pattern-examples">
+                        <li><code>Game-*</code></li>
+                        <li><code>CTF{...}</code></li>
+                        <li><code>Secret-Key-##</code></li>
+                    </ul>
+                    <p class="small">Note: These are just examples and may not match actual patterns.</p>
+                </div>
             </div>
         </div>
-        
+
         <footer>
             <p>Powered by <a href="https://perrythedev.com">Perry</a></p>
-            <a href="{{ url_for('admin.login') }}" class="admin-link">Admin</a>
+            <a href="{{ url_for('admin.login') }}" class="admin-link">Manage</a>
         </footer>
     </div>
+
+    <style>
+        .text-center {
+            text-align: center;
+        }
+        
+        .no-match-icon {
+            margin: 0 auto 30px;
+            color: #d97706;
+        }
+        
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .actions .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0;
+        }
+        
+        .btn svg {
+            transition: all 0.3s ease;
+        }
+        
+        .actions .btn:first-child:hover svg {
+            transform: translateX(-5px);
+        }
+        
+        .actions .btn:last-child:hover svg {
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .hint-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .hint-section h3 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .pattern-examples {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        
+        .pattern-examples li {
+            background-color: #f9fafb;
+            border-radius: 6px;
+            padding: 6px 12px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 480px) {
+            .actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .no-match-icon svg {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .pattern-examples {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </body>
 </html>

@@ -3,45 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error</title>
+    <title>Error - String Transformer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container animate__animated animate__fadeIn">
         <div class="header">
-            <div class="flowers left-flowers"></div>
-            <h1>Error</h1>
-            <div class="flowers right-flowers"></div>
+            <h1>String Transformer</h1>
         </div>
-        
-        <!-- <div class="women-day-badge">
-            <span>Women's Day Special</span>
-        </div> -->
-        
+
         <div class="card">
-            <div class="card-body">
-                <div class="error-icon">
+            <div class="card-body text-center">
+                <div class="error-icon animate__animated animate__headShake">
                     <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                     </svg>
                 </div>
                 
-                <h2>{{ error }}</h2>
+                <h2>Oops! Something went wrong</h2>
                 
-                <div class="notice error-notice">
-                    <p>Something went wrong with your request.</p>
+                <div class="notice error-notice animate__animated animate__fadeIn animate__delay-1s">
+                    <p>{{ error|default("An unexpected error occurred.") }}</p>
                 </div>
                 
-                <a href="{{ url_for('main.index') }}" class="btn">Back to Home</a>
+                <p class="animate__animated animate__fadeIn animate__delay-2s">
+                    Don't worry, you can try again or return to the home page.
+                </p>
+                
+                <div class="actions animate__animated animate__fadeIn animate__delay-2s">
+                    <a href="javascript:history.back()" class="btn btn-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                        </svg>
+                        <span>Go Back</span>
+                    </a>
+                    <a href="{{ url_for('main.index') }}" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+                        </svg>
+                        <span>Home Page</span>
+                    </a>
+                </div>
             </div>
         </div>
-        
+
         <footer>
             <p>Powered by <a href="https://perrythedev.com">Perry</a></p>
-            <a href="{{ url_for('admin.login') }}" class="admin-link">Admin</a>
+            <a href="{{ url_for('admin.login') }}" class="admin-link">Manage</a>
         </footer>
     </div>
+
+    <style>
+        .text-center {
+            text-align: center;
+        }
+        
+        .error-icon {
+            margin: 0 auto 30px;
+            color: #dc2626;
+        }
+        
+        .error-notice {
+            background-color: #fee2e2;
+            border-left: 4px solid #ef4444;
+            color: #b91c1c;
+        }
+        
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .actions .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0;
+        }
+        
+        .btn svg {
+            transition: all 0.3s ease;
+        }
+        
+        .actions .btn:first-child:hover svg {
+            transform: translateX(-5px);
+        }
+        
+        .actions .btn:last-child:hover svg {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 480px) {
+            .actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .error-icon svg {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
 </body>
 </html>

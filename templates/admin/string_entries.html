@@ -1,0 +1,59 @@
+<!-- String Entries Section -->
+<section id="string-entries" class="dashboard-section">
+    <h2>String Transformations History</h2>
+    <p class="dashboard-info">
+        Each string can only be viewed once by default. To allow a string to be viewed again, 
+        enable reaccess using the button below. Once enabled, the next view will mark it as used again.
+    </p>
+    <div class="data-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Input String</th>
+                    <th>Transformed String</th>
+                    <th>IP Address</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in string_entries %}
+                <tr class="{% if entry.accessed and not entry.reaccesible %}entry-used{% endif %}">
+                    <td>{{ entry.id }}</td>
+                    <td>{{ entry.input_string }}</td>
+                    <td>{{ entry.transformed_string }}</td>
+                    <td>{{ entry.ip_address }}</td>
+                    <td>
+                        {% if entry.accessed and not entry.reaccesible %}
+                        <span class="status-badge viewed">Used - Cannot Access</span>
+                        {% elif entry.accessed and entry.reaccesible %}
+                        <span class="status-badge enabled">Used - Reaccess Enabled</span>
+                        {% elif not entry.accessed %}
+                        <span class="status-badge not-viewed">Not Viewed Yet</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ entry.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td class="actions-cell">
+                        <form method="POST" action="{{ url_for('admin.toggle_reaccess', entry_id=entry.id) }}" class="inline-form-action">
+                            {% if entry.accessed and not entry.reaccesible %}
+                                <!-- <button type="submit" class="btn btn-sm btn-success">Enable Viewing</button> -->
+                            {% elif entry.reaccesible %}
+                                <!-- <button type="submit" class="btn btn-sm btn-warning">Disable Reaccess</button> -->
+                            {% else %}
+                                <span class="status-text">No action needed</span>
+                            {% endif %}
+                        </form>
+                        
+                        <!-- Delete button -->
+                        <form method="POST" action="{{ url_for('admin.delete_entry', entry_id=entry.id) }}" onsubmit="return confirm('Are you sure you want to delete this entry?')" class="inline-form-action">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
