@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/mobile_styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">GameApp</div>
+        <button class="menu-button" id="menuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav" id="mobileNav">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="/mobile/dashboard" class="nav-link">Dashboard</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">My Games</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Leaderboard</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content container">
+        <!-- Hero Section -->
+        <div class="card">
+            <div style="position: relative;">
+                <img src="/static/img/game-hero.jpg" alt="Featured Game" style="width: 100%; border-radius: 6px;">
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); color: white; padding: 15px;">
+                    <h2>Latest Games</h2>
+                    <p>Play now and compete with friends</p>
+                    <a href="#" class="btn btn-secondary">Play Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Access Section -->
+        <div class="card">
+            <h3 class="card-title">Quick Access</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <a href="#" class="btn">New Game</a>
+                <a href="/mobile/dashboard" class="btn">Dashboard</a>
+                <a href="#" class="btn">Join Game</a>
+                <a href="#" class="btn">Achievements</a>
+            </div>
+        </div>
+
+        <!-- Featured Games -->
+        <div class="card">
+            <h3 class="card-title">Featured Games</h3>
+            <div class="game-list">
+                <div class="game-item" style="display:flex; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:15px;">
+                    <img src="/static/img/game1.jpg" alt="Game 1" style="width:80px; height:80px; border-radius:8px; object-fit:cover;">
+                    <div style="margin-left:15px;">
+                        <h4>Adventure Quest</h4>
+                        <p>Explore the mysterious world</p>
+                        <div style="color: #ffc107;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-item" style="display:flex; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:15px;">
+                    <img src="/static/img/game2.jpg" alt="Game 2" style="width:80px; height:80px; border-radius:8px; object-fit:cover;">
+                    <div style="margin-left:15px;">
+                        <h4>Space Invaders</h4>
+                        <p>Classic arcade with a twist</p>
+                        <div style="color: #ffc107;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-item" style="display:flex;">
+                    <img src="/static/img/game3.jpg" alt="Game 3" style="width:80px; height:80px; border-radius:8px; object-fit:cover;">
+                    <div style="margin-left:15px;">
+                        <h4>Puzzle Master</h4>
+                        <p>Train your brain with puzzles</p>
+                        <div style="color: #ffc107;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+            <h3 class="card-title">Recent Activity</h3>
+            <ul style="list-style: none;">
+                <li style="display:flex; align-items:center; margin-bottom:10px;">
+                    <div style="width:40px; height:40px; background:#3498db; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white;">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div style="margin-left:10px;">
+                        <p>You won a match in Adventure Quest</p>
+                        <small style="color:#777;">2 hours ago</small>
+                    </div>
+                </li>
+                <li style="display:flex; align-items:center; margin-bottom:10px;">
+                    <div style="width:40px; height:40px; background:#2ecc71; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white;">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div style="margin-left:10px;">
+                        <p>New achievement unlocked</p>
+                        <small style="color:#777;">Yesterday</small>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="bottom-nav-item active">
+            <i class="fas fa-home bottom-nav-icon"></i>
+            <span class="bottom-nav-text">Home</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fas fa-search bottom-nav-icon"></i>
+            <span class="bottom-nav-text">Discover</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fas fa-gamepad bottom-nav-icon"></i>
+            <span class="bottom-nav-text">Play</span>
+        </a>
+        <a href="/mobile/dashboard" class="bottom-nav-item">
+            <i class="fas fa-chart-line bottom-nav-icon"></i>
+            <span class="bottom-nav-text">Dashboard</span>
+        </a>
+    </nav>
+
+    <script src="/static/js/mobile_ui.js"></script>
+</body>
+</html>

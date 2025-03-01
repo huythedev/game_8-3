@@ -37,10 +37,10 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_COOKIE_SECURE = os.environ.get('SECURE_COOKIES', 'True').lower() == 'true'
     PERMANENT_SESSION_LIFETIME = 3600  # 1 hour session lifetime
-    DEBUG = False
+    DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
     HOST = os.getenv('HOST', '127.0.0.1')  # Changed from 0.0.0.0 to 127.0.0.1
     PORT = int(os.getenv('PORT', 8000))  # Adding the missing PORT attribute
     
     # Add proxy configuration
-    BEHIND_PROXY = os.environ.get('BEHIND_PROXY', 'False').lower() == 'true'
+    BEHIND_PROXY = os.getenv('BEHIND_PROXY', 'False').lower() == 'true'
     PROXY_HEADERS = ['X-Forwarded-For', 'X-Real-IP']
