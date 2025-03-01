@@ -32,6 +32,10 @@ The String Transformer application allows users to submit strings and receive tr
    ```bash
    python -m venv venv
    ```
+   or
+   ```bash
+   python3 -m venv venv
+   ```
 
 3. Activate the virtual environment:
    - Windows: `venv\Scripts\activate`
@@ -40,6 +44,10 @@ The String Transformer application allows users to submit strings and receive tr
 4. Install the required packages:
    ```bash
    pip install -r requirements.txt
+   ```
+   or
+   ```bash
+   pip3 install -r requirements.txt
    ```
 
 5. Create a `.env` file from the template:
@@ -51,7 +59,11 @@ The String Transformer application allows users to submit strings and receive tr
 
 7. Run the application:
    ```bash
-   python -m waitress --host=0.0.0.0 --port=8000 wsgi:application
+   python app.py
+   ```
+   or
+   ```bash
+   python3 app.py
    ```
 
 ## Project Structure
@@ -124,10 +136,14 @@ After installation, you can access the admin interface at `/admin/login` with th
 
 ## Production Deployment
 
-### Using Waitress (Windows)
+### Using Waitress
 
 ```bash
 python -m waitress --host=0.0.0.0 --port=8000 wsgi:application
+```
+or
+```bash
+python3 -m waitress --host=0.0.0.0 --port=8000 wsgi:application
 ```
 
 ### Nginx Configuration
