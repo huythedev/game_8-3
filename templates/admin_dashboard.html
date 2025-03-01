@@ -164,7 +164,7 @@
                                 <td class="actions-cell">
                                     <form method="POST" action="{{ url_for('admin.toggle_reaccess', entry_id=entry.id) }}" class="inline-form-action">
                                         {% if entry.accessed and not entry.reaccesible %}
-                                            <button type="submit" class="btn btn-sm btn-success">Enable Viewing</button>
+                                            <!-- <button type="submit" class="btn btn-sm btn-success">Enable Viewing</button> -->
                                         {% elif entry.reaccesible %}
                                             <button type="submit" class="btn btn-sm btn-warning">Disable Reaccess</button>
                                         {% else %}
