@@ -26,7 +26,7 @@ The String Transformer application allows users to submit strings and receive tr
 
 1. Clone the repository or download the source code:
    ```bash
-   git clone https://github.com/perrythedev/game_8-3.git
+   git clone https://github.com/huythedev/game_8-3.git
    cd game_8-3
    ```
 
